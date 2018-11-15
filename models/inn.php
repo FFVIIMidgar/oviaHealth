@@ -12,7 +12,7 @@
 class inn
 {
 /**
- * private property $_rooms contains the state of each of the four rooms of the
+ * public property $rooms contains the state of each of the four rooms of the
  * inn. They are numerically indexed from zero within this array.
  *
  * The inn has FOUR rooms
@@ -22,7 +22,7 @@ class inn
  * ONE room has TWO storage spaces and sleeps ONE person
  * ONE room sleeps ONE person and has ZERO storage space
  */
-private $_rooms = array();
+public $rooms = array();
 /*
  * $this->_cleaningTeam keeps track of how many hours the cleaning gnomes have
  * worked today.
@@ -41,27 +41,27 @@ private $_cleaningTeam = array(
 private $_profit = 0;
 function __construct()
 {
-    include_once room.php;
+    include_once 'room.php';
     /*
      * We initialize each of the four rooms in the inn.
      */
-    $this->_rooms[] = new room(2, 1);
-    $this->_rooms[] = new room(2, 0);
-    $this->_rooms[] = new room(1, 2);
-    $this->_rooms[] = new room(1, 0);
+    $this->rooms[] = new room(2, 1);
+    $this->rooms[] = new room(2, 0);
+    $this->rooms[] = new room(1, 2);
+    $this->rooms[] = new room(1, 0);
     /*
      * Then we can schedule an appropriate start time for the cleaning team.
      */
     $this->_cleaningTeam['timeStart'] = time();
     for ($loop = 0;
-    $loop < count($this->_rooms);
+    $loop < count($this->rooms);
     $loop++
     ) {
         /*
          * We check the clean status of each room, or compare the timestamp to
          * verify that they are in fact clean.
          */
-        $this->_rooms[$loop]->clean();
+        $this->rooms[$loop]->clean();
     }
 }
 /**
@@ -83,10 +83,10 @@ function book($occupants = 1, $storage = 0)
 {
     $loopFlag = false;
     for ($loop = 0;
-    $loop < count($this->_rooms);
+    $loop < count($this->rooms);
     $loop++
     ) {
-        $room = $this->_rooms[$loop];
+        $room = $this->rooms[$loop];
         $availibility['occupants'] = $room->_capacity['occupants']
             - $room->_occupancy['occupants'];
         $availibility['storage']   = $room->_capacity['storage']
@@ -124,11 +124,15 @@ function book($occupants = 1, $storage = 0)
          * check availability.
          */
         if ($loopFlag == false
-        &&  $loop == count($this->_rooms) - 1
+        &&  $loop == count($this->rooms) - 1
         ) {
             $loop     = 0;
             $loopFlag = true;
         }
     }
+}
+function getRooms()
+{
+    return $this->rooms;
 }
 }

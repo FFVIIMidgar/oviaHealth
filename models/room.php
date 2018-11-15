@@ -16,13 +16,13 @@ class room
  * $this->_capacity describes how much a given room can accommodate whereas
  * $this->_occupancy describes how much a given room currently accommodates.
  */
-private $_capacity = array(
+protected $_capacity = array(
     'occupants' => 2,
     'storage'   => 0
 );
-private $_occupancy = array(
+protected $_occupancy = array(
     'occupants' => 0,
-    'storage' => 0
+    'storage'   => 0
 );
 /*
  * $this->_clean marks the time stamp when a room was last cleaned. If that time
@@ -55,8 +55,8 @@ function __construct($occupancy = 2, $storage = 0)
     default:
         return false;
     }
-    $this->$_capacity['occupants'] = $occupancy;
-    $this->$_capacity['storage']   = $storage;
+    $this->_capacity['occupants'] = $occupancy;
+    $this->_capacity['storage']   = $storage;
     $this->clean();
 }
 /**
@@ -76,7 +76,7 @@ function clean()
     // connection, and will return what I need.
     // TODO Is the cleaning time a function of room capacity, or actual room
     // occupants? That is not specified in the problem, but relevant.
-    $this->_clean = time() + (3600 + (1800 * $this->$_capacity['occupants']));
+    $this->_clean = time() + (3600 + (1800 * $this->_capacity['occupants']));
     return $this->_clean;
 }
 /**
@@ -105,5 +105,12 @@ function book($occupants = 1, $storage = 0)
     $this->_occupancy['storage']   += $storage;
     // TODO Write this object state to persistent storage.
     return true;
+}
+function getCapacity()
+{
+    return array(
+        'capacity'  => $this->_capacity,
+        'occupancy' => $this->_occupancy
+    );
 }
 }
