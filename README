@@ -1,0 +1,12 @@
+This is a basic structure for a hotel booking system. To run this environment I
+recommend that you use:
+
+PHP 5.6.30 (cli) (built: Feb  7 2017 16:18:37)
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
+
+    If you are not sure what you are running, try writing `php -v` in the
+    command line.
+
+There is currently no persistent storage engine, but you can use whatever you
+find appropriate.
