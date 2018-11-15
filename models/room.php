@@ -36,23 +36,24 @@ function __construct($occupancy = 2, $storage = 0)
      * All rooms accommodate one or two occupants. We limit room objects to one
      * of those two values, and all others are invalid.
      */
-    case false === is_numeric($occupancy)
-    ||  0       >= $occupancy
-    ||  3       <= $occupancy:
+    case true === is_numeric($occupancy)
+    &&  1 <= $occupancy
+    &&  2 >= $occupancy
     /*
      * All of the rooms have either zero to two storage spaces, so we must
      * require that rooms accomodate those binary values. All other inputs are
      * invalid.
      */
-    case false === is_numeric($storage)
-    ||  -1      >= $storage
-    ||  3       <= $storage:
-        /*
-         * There is some problem with the input. Return the error, and let the
-         * world handle it.
-         */
-        return false;
+    &&  true === is_numeric($storage)
+    &&  0 <= $storage
+    &&  2 >= $storage:
+        break;
+    /*
+     * There is some problem with the input. Return the error, and let the
+     * world handle it.
+     */
     default:
+        return false;
     }
     $this->$_capacity['occupants'] = $occupancy;
     $this->$_capacity['storage']   = $storage;
