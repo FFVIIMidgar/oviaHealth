@@ -10,3 +10,43 @@ Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
 
 There is currently no persistent storage engine, but you can use whatever you
 find appropriate.
+
+On a high level the program has a few functions to manage booking systems. You
+can:
+    getAvailability()
+    bookRoom()
+
+We are currently missing a required function to gnome cleaning schedules. The
+gnome cleaning process is incomplete, because we need a few things to finalize
+that:
+    - persistent storage to know when some one will vacate a room. We can assume
+      a given check out time, but we can also trigger the cleaning gnomes
+      whenever a guest checks out at the desk rather than starting all rooms at
+      a check out time
+    - storage again to keep track of where the gnomes are at a given time
+    - storage a third time to keep track of rooms that are already clean
+
+Adding more rooms is just as simple as initializing more rooms in the inn
+constructor.
+
+We can add more gnome teams by moving the cleaningTeam logic to
+models/cleaningTeam.php, and then treating each team as a distinct object. Then
+we can double our pleasure, double our fun.
+
+I did this in a little under three hours. I have a lot of time constraints right
+now, but squeezed this in when I could manage. I wanted the hours to be
+continuous, but with unlimited time the sky is the limit. I could have
+personally created the cleaningTeam object, and puzzled over gnome logic more
+thoroughly.
+
+Automated testing would require that I systematically run through known input 
+types in all available arguments:
+    - string
+    - boolean
+    - numeric
+    - array
+    - object
+We can verify that the program accepts what we expect it to accept, and rejects
+all others or handles them gracefully.
+
+Thanks for reading, this was an interesting exercise.
