@@ -130,6 +130,7 @@ function book($occupants = 1, $storage = 0)
             $loopFlag = true;
         }
     }
+    return false;
 }
 function getRooms()
 {

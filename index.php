@@ -24,10 +24,28 @@ function __construct()
 }
 function index()
 {
+    echo "This is the endpoint for inn management. Available functions are:
+        - getAvailability()
+        - bookRoom()
+        - scheduleCleaning()\n";
 }
+/*
+ * Based on guests bookings, luggage storage requirements and cleaning
+ * availability
+ */
 function getAvailability()
 {
     return $this->_availability;
+}
+/**
+ * Has an endpoint for booking rooms
+ * Based on guests bookings, luggage storage requirements and cleaning
+ * availability this should return a valid room number, to confirm the booking
+ * or an error if the room is not bookable for some reason.
+ */
+function bookRoom($occupants, $storage)
+{
+    return $this->_inn->book($occupants, $storage);
 }
 }
 $index = new innController;
