@@ -12,8 +12,18 @@
  */
 class room
 {
-private $_occupancy = 2;
-private $_storage   = 0;
+/**
+ * $this->_capacity describes how much a given room can accommodate whereas
+ * $this->_occupancy describes how much a given room currently accommodates.
+ */
+private $_capacity = array(
+    'occupants' => 2,
+    'storage'   => 0
+);
+private $_occupancy = array(
+    'occupants' => 0,
+    'storage' => 0
+);
 /*
  * $this->_clean marks the time stamp when a room was last cleaned. If that time
  * has elapsed then we can rent the room again.
@@ -44,8 +54,8 @@ function __construct($occupancy = 2, $storage = 0)
         return false;
     default:
     }
-    $this->_occupancy = $occupancy;
-    $this->_storage   = $storage;
+    $this->$_capacity['occupants'] = $occupancy;
+    $this->$_capacity['storage']   = $storage;
     $this->clean();
 }
 /**
@@ -63,7 +73,36 @@ function clean()
     // track of whether a room is clean between program runs. For this example I
     // will assume that we have a query() function that already has a database
     // connection, and will return what I need.
-    $this->_clean = time() + (3600 + (1800 * $this->_occupancy));
+    // TODO Is the cleaning time a function of room capacity, or actual room
+    // occupants? That is not specified in the problem, but relevant.
+    $this->_clean = time() + (3600 + (1800 * $this->$_capacity['occupants']));
     return $this->_clean;
+}
+/**
+ * models/room.php::book() differs from models/inn.php::book() in that
+ * $this->book() is entirely concerned with whether the room can physically
+ * accommodate a guest.
+ *
+ * Guests can not store their luggage in another guest’s room.
+ */
+function book($occupants = 1, $storage = 0)
+{
+    switch (true) {
+    case true      === is_numeric($occupants)
+    &&  true       === is_numeric($storage)
+    &&  1           <= $occupants
+    &&  0           <= $storage
+    &&  $occupants  <=
+        $this->_capacity['occupants'] - $this->_occupancy['occupants']
+    &&  $storage    <=
+        $this->_capacity['storage'] - $this->_occupancy['storage']:
+        break;
+    default:
+        return false;
+    }
+    $this->_occupancy['occupants'] += $occupants;
+    $this->_occupancy['storage']   += $storage;
+    // TODO Write this object state to persistent storage.
+    return true;
 }
 }
